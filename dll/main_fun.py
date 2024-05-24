@@ -223,14 +223,18 @@ def to_cartesian(polar):
     return [x, y, z]
 
 def visualization_1_qubit(f_q_circuit, X, Y, params, ax, angles=[-90,180], sz=1, bias=None, entanglement=False):
+  # Get nuber of samples and features:
   nf, nc = X.shape
-  print(type(Y))
+  # get clases [0,1,2,...]
   clases = list(set(Y))
-
+  # if number of features is 1:
+  # this actions is descontinued becasuse stac provides model:
+  """
   if nc == 1:
     X = np.hstack((X, np.zeros((nf, 2), requires_grad=False)))
   elif nc == 2:
     X = np.hstack((X, np.zeros((nf, 1), requires_grad=False)))
+  """
   dict_coord = {}
   # Agregar datos al diccionario
   def agregar_dato(key, dato):
@@ -249,7 +253,7 @@ def visualization_1_qubit(f_q_circuit, X, Y, params, ax, angles=[-90,180], sz=1,
   bloch_sphere.point_size = sz
   color_to_cycle = ["#FF0000", "#0000FF", "#006400"]
   my_colors = [ color_to_cycle[cl] for cl in clases ]
-  bloch_sphere.point_color = my_colors
+  bloch_sphere.point_default_color = my_colors
   for cl in clases:
     X_key = f'cl_{cl}_x'
     Y_key = f'cl_{cl}_y'
@@ -280,7 +284,7 @@ def plot_data(x, y, fig=None, ax=None):
 # Visualizacion Train, test, true
 def plot_data_v2(x, y, fig=None, ax=None):
     """
-    Plot data with red/blue values for a binary classification.
+    Plot data with red/blue values for a 3 claseses classification.
 
     Args:
         x (array[tuple]): array of data points as tuples

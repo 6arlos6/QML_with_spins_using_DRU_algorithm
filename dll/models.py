@@ -88,3 +88,23 @@ def qcircuit_4_qubit_mixed(params, x, bias = None, entanglement = False, alpha_n
         qml.CZ(wires=[0,3])
         qml.Snapshot(f"ket_4_qubits_entanglement_impar{i}")
   return qml.state()
+
+# ==========================
+# No mixed models
+
+dev = qml.device("default.qubit", wires=1)
+@qml.qnode(dev, interface="autograd")
+def qcircuit_1_qubit(params, x, bias = None, entanglement=False):
+    """A variational quantum circuit representing the Universal classifier.
+    Args:
+        params (array[float]): array of parameters
+        x (array[float]): single input vector
+    Returns:
+        float: qml state
+    """
+    for i,p in enumerate(params):
+      arg = np.multiply(p,x) + bias[i]
+      arg1, arg2, arg3 = arg
+      qml.Rot(arg3,arg1,arg2 , wires=0) # RZ * RY * RZ -> data
+    return qml.state()
+  
