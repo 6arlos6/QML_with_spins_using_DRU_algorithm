@@ -18,7 +18,7 @@ class Modelo_DRU:
                path_save_parameters = "",
                path_save_states = "", 
                val_prc = 0.3, features = 2, alpha_noise = 0.0,
-               excel_file_experimente = 'resultados_clasificacion.xlsx',
+               path_excel_file_result = '',
                save_w_states = False, verbose_test = False, save_excel_result = False):
  
         self.modelo = modelo
@@ -57,7 +57,7 @@ class Modelo_DRU:
         # self.features
         self.features = features
         # excel_file
-        self.excel_file_experimente = excel_file_experimente
+        self.path_excel_file_result = path_excel_file_result
         # save w, state
         self.save_w_states = save_w_states
         self.verbose_test = verbose_test
@@ -108,6 +108,7 @@ class Modelo_DRU:
       print(classification_report(self.y_val, predicted_test))
 
     # Escribir resultado en excel:
+    # Resultados evaluados con el dataset de entrenamiento:
     report_dict = classification_report(self.y_val, predicted_test, output_dict=True)
     mi_diccionario = self.report_to_dict(report_dict)
 
@@ -132,7 +133,7 @@ class Modelo_DRU:
     if self.save_excel_result == True:
       self.dict_to_excel(mi_diccionario,
                         acc_train_end, loss_train_end, loss_test_end,
-                        self.excel_file_experimente)
+                        os.path.join(self.path_excel_file_result,"result_bech.xlsx"))
 
     # guardar pesos y estados despues del entrenamiento
     if self.save_w_states == True:
@@ -210,6 +211,8 @@ class Modelo_DRU:
 
     # Colocar idenficador de prueba
     # self.idd = f"N_layers = {num_layers} + Noise = {alpha_noise} + f_cost = {f_loss.__name__}"
+    df_nuevo_expandido["N_qubits"] = self.n_qubits
+    df_nuevo_expandido["Entanglement"] = self.entanglement
     df_nuevo_expandido["f_loss"] = self.f_loss.__name__
     df_nuevo_expandido["N_layers"] = self.num_layers
     df_nuevo_expandido["Noise"] = self.alpha_noise
