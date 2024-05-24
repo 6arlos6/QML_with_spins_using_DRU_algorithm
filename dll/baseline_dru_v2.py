@@ -8,15 +8,17 @@ from pennylane import numpy as np
 from tqdm import tqdm
 from sklearn.metrics import classification_report
 from sklearn.model_selection import train_test_split
+import os
 
 class Modelo_DRU:
 
   def __init__(self, modelo, f_loss, num_layers = 10, learning_rate = 0.1,
                epochs = 10, batch_size = 32, n_clases = 3, n_qubits = 1,
                random_state = 42, save_process = True, entanglement = False,
-               path_save_w0 = "", path_save_states_0="", file_name_w = "test_w",
-               file_name_state = "test_states", val_prc = 0.3, features = 2,
-               alpha_noise = 0.0, excel_file_experimente = 'resultados_clasificacion.xlsx',
+               path_save_parameters = "",
+               path_save_states = "", 
+               val_prc = 0.3, features = 2, alpha_noise = 0.0,
+               excel_file_experimente = 'resultados_clasificacion.xlsx',
                save_w_states = False, verbose_test = False, save_excel_result = False):
  
         self.modelo = modelo
@@ -50,10 +52,8 @@ class Modelo_DRU:
         # porcentaje validadion
         self.prc_val = val_prc
         # paths to save:
-        self.file_name_state = file_name_state
-        self.file_name_w = file_name_w
-        self.path_save_states_0 = path_save_states_0
-        self.path_save_w0 = path_save_w0
+        self.path_save_states = path_save_states
+        self.path_save_parameters = path_save_parameters
         # self.features
         self.features = features
         # excel_file
@@ -76,8 +76,8 @@ class Modelo_DRU:
       self.X_val = np.hstack((self.X_val, np.zeros((self.X_val.shape[0], 1), requires_grad=False)))
     # guardar pesos y estados antes del entrenamiento
     if self.save_w_states == True:
-      self.write_params(self.path_save_w0 + self.file_name_w + "_before_parameters.json")
-      self.save_states(self.X_train, self.y_train, self.path_save_states_0 + self.file_name_state + "_before_states.json")
+      self.save_states(self.X_train, self.y_train, os.path.join(self.path_save_states, "states_before.json"))
+      self.write_params(os.path.join(self.path_save_parameters, "parameters_before.json"))
     # Entrenamiento por epocas:
     self.opt = qml.AdamOptimizer(self.learning_rate, beta1=0.9, beta2=0.999)
     for it in tqdm(range(self.epochs), desc="Epoch"):
@@ -136,8 +136,8 @@ class Modelo_DRU:
 
     # guardar pesos y estados despues del entrenamiento
     if self.save_w_states == True:
-      self.save_states(self.X_train, self.y_train, self.path_save_states_0 + self.file_name_state+ "_after_states.json")
-      self.write_params(self.path_save_w0 + self.file_name_w + "_after_parameters.json")
+      self.save_states(self.X_train, self.y_train, os.path.join(self.path_save_states, "states_after.json"))
+      self.write_params(os.path.join(self.path_save_parameters, "parameters_after.json"))
 
     return self.params, self.bias
 

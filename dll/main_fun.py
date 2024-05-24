@@ -366,8 +366,6 @@ def test_intra_states(model, params, x, y, state_labels=None, bias=None, entangl
   # en test de fidelidas posteriores.
   dict_states_by_sample = []
   for i in range(len(x)):
-    if i == 0:
-      print(x[i])
     diccionario_estados = qml.snapshots(model)(params,x[i], bias=bias, entanglement = entanglement, alpha_noise = alpha_noise )
     dict_states_by_sample.append(diccionario_estados)
   return dict_states_by_sample
