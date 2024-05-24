@@ -513,7 +513,7 @@ def pulse_x_cos(t, args):
     t_final = args["t_final"]
     w = args["w"]
     pulse = np.heaviside((t-t_init), 0.0) * np.heaviside(-(t - t_final), 0.0)
-    return np.cos(w*t)*pulse
+    return np.cos(w*t - 1e-6)*pulse
 
 # Pulsos para la clase
 

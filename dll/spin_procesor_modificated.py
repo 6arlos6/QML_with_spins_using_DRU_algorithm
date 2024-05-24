@@ -7,7 +7,7 @@ from .main_fun import pulse_x,  pulse_x_with_noise
 
 class Quantum_Spin_Proces:
 
-  def __init__(self, h = 1, gir = 1.760e11, B0 = 10e-3, nf = 1, N_qubits = 1, J = 1e12, tf_noise = False,
+  def __init__(self, h = 1, gir = 1.760e11, B0 = 10e-3, nf = 4, N_qubits = 1, J = 1e12, tf_noise = False,
                  noise_std = 0.01, B1_offset = 0, n_points_pulse_Ri = 2,
                  n_points_pulse_2Qbits = 2, n_swap = 1, T1 = 1e3, T2 = 1e3,
                  tf_quantum_noise = False, f_rage = 0, save_time_values = False,
