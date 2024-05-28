@@ -3,27 +3,31 @@ from mpl_toolkits.mplot3d import Axes3D
 from qutip import Bloch
 import matplotlib as mpl
 from matplotlib import cm
+import os
+
 
 from .main_fun import pulse_x, pulse_z, pulse_x_with_noise
 import numpy as np
 
-def plot_excharges(self, out, index, ry_tf = False, j = False):
+def plot_excharges(self, out, index, ry_tf = False,
+                   path_to_save_img = os.path.join("results_of_test","test_2"),
+                   name_file = f""
+                   noise_plot = False):
 
-    labels_axis = ["X","Y","Z","Does not apply"]
+    label_axis = [r"$\langle \sigma_x \rangle$",
+                  r"$\langle \sigma_y \rangle$",
+                  r"$\langle \sigma_z \rangle$"]
     # Grafica del valor esperado:
     if ry_tf == False:
         plt.figure(figsize=(6, 2))
         # Subplot para el valor esperado
         plt.subplot(1, 1, 1)  # 2 filas, 1 columna, primer subplot
         plt.plot(self.tlist*1e9, out.expect[index])
-        if j == False:
-            plt.title(f'Expected value \n Axis {labels_axis[index]}')
-        else:
-            plt.title(f'Expected value')
-            plt.xlabel('Time [ns]')
-            plt.ylabel('Expected value')
-            plt.ylim(-1.1, 1.1)
-            plt.grid(True)
+        #plt.title(f'Expected value')
+        plt.xlabel('Time [ns]')
+        plt.ylabel(label_axis[index])
+        plt.ylim(-1.1, 1.1)
+        plt.grid(True)
     else:
         time = list(self.tlist*1e9) + list(self.tlist*1e9) + list(self.tlist*1e9)
         Ntime = len(time)
@@ -33,11 +37,17 @@ def plot_excharges(self, out, index, ry_tf = False, j = False):
         # Subplot para el valor esperado
         plt.subplot(1, 1, 1)  # 2 filas, 1 columna, primer subplot
         plt.plot(tt, y)
-        plt.title(f'Expected value \n Axis {labels_axis[index]}')
+        #plt.title(f'Expected value \n Axis {labels_axis[index]}')
         plt.xlabel('Time [ns]')
-        plt.ylabel('Expected value')
+        plt.ylabel(label_axis[index])
         plt.ylim(-1.1, 1.1)
         plt.grid(True)
+    if noise_plot == False:
+        path_to_save_img_file = os.path.join(path_to_save_img,f"R{labels_axis[index]}_without_RWA.pdf")
+    else:
+        path_to_save_img_file = os.path.join(path_to_save_img,f"R{labels_axis[index]}_without_RWA_with_noise.pdf")
+    plt.savefig(path_to_save_img_file  , format='pdf', bbox_inches = 'tight')
+    
     plt.show()
     print("\n")
     # Grafica del pulso:
@@ -94,10 +104,15 @@ def plot_excharges(self, out, index, ry_tf = False, j = False):
     # Ajustar el espacio entre los subgráficos para evitar solapamiento
     plt.tight_layout()
     # Mostrar el gráfico
+    path_to_save_img_file = os.path.join(path_to_save_img,f"R{labels_axis[index]}_pulses_without_RWA.pdf")
+    plt.savefig(path_to_save_img_file , format='pdf', bbox_inches = 'tight')
     plt.show()
-    
-def plot_expect(self, out, ry_tf = False):
+
+# =======================================================================
+
+def plot_expect(self, out, ry_tf = False, path_to_save_img = os.path.join("results_of_test","test_2"), index = 0):
     ## create Bloch sphere instance ##
+    label_axis = ["X", "Y", "Z"]
     if ry_tf == False:
       fig = plt.figure(constrained_layout=True)
       ax1 = fig.add_subplot(1, 2, 1, projection='3d')
@@ -123,6 +138,8 @@ def plot_expect(self, out, ry_tf = False):
       sm.set_array([])  # You need to set a dummy array for the right scaling
       cbar = plt.colorbar(sm, ax = ax1, orientation='vertical', shrink=0.5)
       cbar.set_label('Time [ns]')
+      path_to_save_img_file = os.path.join(path_to_save_img,f"R{label_axis[index]}_expectation_in_Bloch.pdf")
+      plt.savefig(path_to_save_img_file , format='pdf', bbox_inches = 'tight')
       plt.show()
     else:
       fig = plt.figure(constrained_layout=True)
@@ -150,4 +167,6 @@ def plot_expect(self, out, ry_tf = False):
       sm.set_array([])  # You need to set a dummy array for the right scaling
       cbar = plt.colorbar(sm, ax = ax1, orientation='vertical', shrink=0.5)
       cbar.set_label('Time [ns]')
+      path_to_save_img_file = os.path.join(path_to_save_img,f"R{label_axis[index]}_expectation_in_Bloch.pdf")
+      plt.savefig(path_to_save_img_file , format='pdf', bbox_inches = 'tight')
       plt.show()

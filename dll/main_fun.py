@@ -507,16 +507,14 @@ def traducir_a_positivo(angulo):
 
 
 # Pulso cosenoidal
-
 def pulse_x_cos(t, args):
     t_init = args["t_init"]
     t_final = args["t_final"]
     w = args["w"]
     pulse = np.heaviside((t-t_init), 0.0) * np.heaviside(-(t - t_final), 0.0)
-    return np.cos(w*t - 1e-6)*pulse
+    return np.cos(w*t)*pulse
 
 # Pulsos para la clase
-
 def pulse_x(t, args):
   t_init = args["t_init"]
   t_final = args["t_final"]
