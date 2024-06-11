@@ -10,12 +10,12 @@ class CompositeGateProcessor(Quantum_Spin_Proces):
                  noise_std=0.01, B1_offset=0, n_points_pulse_Ri=100, n_points_pulse_2Qbits=100,
                 n_swap=1, T1=1e3, T2 = 1e3, tf_quantum_noise=False, f_rage = 0,
                 save_time_values = False, n_points_pulse_Ri_spl = 1000, save_pulses = False, nstepsolver = 1_000,
-                version_qutip = "5", ket_dru_0 = basis(2, 0),  save_intra_states = False):
+                version_qutip = "5", free_time = 0,  ket_dru_0 = basis(2, 0),  save_intra_states = False):
                 # Inicializador del procesdaor:
                 super().__init__(h, gir, B0, nf, N_qubits, J, tf_noise,
                  noise_std, B1_offset, n_points_pulse_Ri, n_points_pulse_2Qbits,
                  n_swap, T1, T2, tf_quantum_noise, f_rage, save_time_values, n_points_pulse_Ri_spl,
-                 save_pulses, nstepsolver, version_qutip)
+                 save_pulses, nstepsolver, version_qutip, free_time)
                 # Estado inicial:
                 self.ket_dru_0 = ket_dru_0
                 self.ket_dru_0_to_reset = ket_dru_0

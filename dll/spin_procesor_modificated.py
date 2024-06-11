@@ -12,7 +12,7 @@ class Quantum_Spin_Proces:
                  n_points_pulse_2Qbits = 2, n_swap = 1, T1 = 1e3, T2 = 1e3,
                  tf_quantum_noise = False, f_rage = 0, save_time_values = False,
                  n_points_pulse_Ri_spl = 1000, save_pulses = False, nstepsolver = 1_000,
-                 version_qutip = "5"):
+                 version_qutip = "5", free_time = 0):
         self.gir = gir
         self.B0 = B0
         self.B1 = B1_offset
@@ -46,6 +46,8 @@ class Quantum_Spin_Proces:
         self.nstepsolver = nstepsolver
         # vesion:
         self.version_qutip = version_qutip
+        
+        self.free_time = free_time
 
   def Rz(self, alpha, ket_0, q_obj = 0, tf_expect = False):
       # Estados iniciales y qubit objetivo:
@@ -207,6 +209,7 @@ class Quantum_Spin_Proces:
               T2_star = 1/((1/self.T2) - (1/(2*self.T1)))
               c1 = a/(np.sqrt(self.T1))
               c2 = a.dag()*a*np.sqrt(2/T2_star)
+              print(T2_star)
               apply_qbit_c_ops_1.append(c1)
               apply_qbit_c_ops_2.append(c2)
             else:
@@ -227,10 +230,10 @@ class Quantum_Spin_Proces:
         dv = 0
       self.args = { "t_init": 0, "t_final": self.delt_t, "std_noise": dv}
       # Aca controlamos el tiempo de simulacion independiente del tiempo spline:
-      self.tlist  = np.linspace(0, self.delt_t, self.n_points_pulse_Ri)
+      self.tlist  = np.linspace(0, self.delt_t + self.free_time, self.n_points_pulse_Ri)
       # Hamiltonian
       if self.tf_noise == False:
-        H = [self.H0 + self.H1, [self.H2, pulse_x]]
+        H = [self.H1, [self.H2 + self.H0, pulse_x]]
         Noise_x = ""
       else:
         # Ruido coherente
