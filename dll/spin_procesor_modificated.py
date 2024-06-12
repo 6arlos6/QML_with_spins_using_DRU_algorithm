@@ -162,8 +162,8 @@ class Quantum_Spin_Proces:
   
   def init_H_1q_and_opt(self, tf_expect = False):
       # Constantes del Hamiltoniano:
-      h0_constant = - (self.h/2) * (self.ω_x)
-      h1_constant =   (self.h/2) * (self.ω_z)
+      h0_constant =   (self.h/2) * (self.ω_z)
+      h1_constant = - (self.h/2) * (self.ω_x)
       h2_constant =   (self.h/2) * (self.O_x)
       
       # Apli rotations in individual qubits:
@@ -209,7 +209,7 @@ class Quantum_Spin_Proces:
               T2_star = 1/((1/self.T2) - (1/(2*self.T1)))
               c1 = a/(np.sqrt(self.T1))
               c2 = a.dag()*a*np.sqrt(2/T2_star)
-              print(T2_star)
+              #print(T2_star)
               apply_qbit_c_ops_1.append(c1)
               apply_qbit_c_ops_2.append(c2)
             else:
@@ -229,11 +229,17 @@ class Quantum_Spin_Proces:
       else:
         dv = 0
       self.args = { "t_init": 0, "t_final": self.delt_t, "std_noise": dv}
+      
       # Aca controlamos el tiempo de simulacion independiente del tiempo spline:
-      self.tlist  = np.linspace(0, self.delt_t + self.free_time, self.n_points_pulse_Ri)
+      # Ojo el proceso free time se aumenta por las N veces que es llamado este metodo
+      # entonces recordar que si es una operacion Rx o Ry el proceso permite emular
+      # el envio de un pulso y luego apagarlo... pero si se llama otro proceso se activa
+      # otro pulso mas el tiempo de apagado
+      self.delt_t = self.delt_t + self.free_time
+      self.tlist  = np.linspace(0, self.delt_t, self.n_points_pulse_Ri)
       # Hamiltonian
       if self.tf_noise == False:
-        H = [self.H1, [self.H2 + self.H0, pulse_x]]
+        H = [self.H0, [self.H1, pulse_x],  [self.H2, pulse_x]]
         Noise_x = ""
       else:
         # Ruido coherente
@@ -265,12 +271,14 @@ class Quantum_Spin_Proces:
         self.tlist_spline  = np.linspace(0, self.delt_t, self.n_points_pulse_Ri_spl)
         noise_x = pulse_x_with_noise(self.tlist_spline, self.args)
         S_x = Cubic_Spline(self.tlist_spline[0], self.tlist_spline[-1], noise_x)
-        H = [self.H0 + self.H1, [self.H2, S_x]]
+        #H = [self.H0 + self.H1, [self.H2, S_x]]
+        H = [self.H0, [self.H1, pulse_x],  [self.H2, S_x]]
       else:
         # Version >= 5
         times_spl = np.linspace(0, self.delt_t, self.n_points_pulse_Ri_spl)
         noise_x = pulse_x_with_noise(times_spl, self.args).flatten()
-        H = QobjEvo([self.H0 + self.H1, [self.H2, noise_x]], tlist=times_spl)
+        # H = QobjEvo([self.H0 + self.H1, [self.H2, noise_x]], tlist=times_spl)
+        H = QobjEvo([self.H0, [self.H1, pulse_x], [self.H2, noise_x]], tlist=times_spl)
       return H, noise_x
      
 
