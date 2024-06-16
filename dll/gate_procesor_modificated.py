@@ -6,7 +6,7 @@ from .spin_procesor_modificated import Quantum_Spin_Proces
       
 class CompositeGateProcessor(Quantum_Spin_Proces):
   # se esta bajando con esto
-  def __init__(self, nf=4, h=1, gir =1.760e11, B0=10e-3, N_qubits=1, J=1e12, tf_noise=False,
+  def __init__(self, nf=4, h=1, gir =1.760e11, B0=-10e-3, N_qubits=1, J=0.1e12, tf_noise=False,
                  noise_std=0.01, B1_offset=0, n_points_pulse_Ri=100, n_points_pulse_2Qbits=100,
                 n_swap=1, T1=1e3, T2 = 1e3, tf_quantum_noise=False, f_rage = 0,
                 save_time_values = False, n_points_pulse_Ri_spl = 1000, save_pulses = False, nstepsolver = 1_000,

@@ -7,7 +7,7 @@ from .main_fun import pulse_x,  pulse_x_with_noise
 
 class Quantum_Spin_Proces:
 
-  def __init__(self, h = 1, gir = 1.760e11, B0 = 10e-3, nf = 4, N_qubits = 1, J = 1e12, tf_noise = False,
+  def __init__(self, h = 1, gir = 1.760e11, B0 = -10e-3, nf = 4, N_qubits = 1, J = 0.1e12, tf_noise = False,
                  noise_std = 0.01, B1_offset = 0, n_points_pulse_Ri = 2,
                  n_points_pulse_2Qbits = 2, n_swap = 1, T1 = 1e3, T2 = 1e3,
                  tf_quantum_noise = False, f_rage = 0, save_time_values = False,
@@ -50,6 +50,7 @@ class Quantum_Spin_Proces:
         self.free_time = free_time
 
   def Rz(self, alpha, ket_0, q_obj = 0, tf_expect = False):
+      alpha = -alpha
       # Estados iniciales y qubit objetivo:
       self.q_obj = q_obj
       self.ket_0 = ket_0
@@ -57,7 +58,7 @@ class Quantum_Spin_Proces:
       self.ω_x = 0
       self.ω_z = self.gir * self.B0
       alpha  = traducir_a_positivo(alpha)
-      self.delt_t = (alpha)/self.ω_z
+      self.delt_t = (alpha)/np.abs(self.ω_z)
       self.B1 = 0
       self.O_x = self.gir*(self.B1/2)
       # solucion:
@@ -73,7 +74,7 @@ class Quantum_Spin_Proces:
       # parametros de compuerta:
       self.ω_x = self.gir * self.B0 + self.f_rage # OJO
       self.ω_z = self.gir * self.B0 
-      self.delt_t = (np.abs(alpha)*self.nf)/self.ω_x
+      self.delt_t = (np.abs(alpha)*self.nf)/np.abs(self.ω_x)
       self.B1 = (alpha * 2)/(self.gir * self.delt_t)
       self.O_x = self.gir*(self.B1/2)
       # solucion:
@@ -253,6 +254,7 @@ class Quantum_Spin_Proces:
             "B0": self.B0,
             "B1": self.B1,
             "Delt_t": self.delt_t,
+            "Q_bits_target":self.q_obj,
             "t_i": t_actual,
             "t_f": t_final,
             "Noise": Noise_x
@@ -277,8 +279,9 @@ class Quantum_Spin_Proces:
         # Version >= 5
         times_spl = np.linspace(0, self.delt_t, self.n_points_pulse_Ri_spl)
         noise_x = pulse_x_with_noise(times_spl, self.args).flatten()
+        pulse_x_values = pulse_x(times_spl, self.args).flatten()
         # H = QobjEvo([self.H0 + self.H1, [self.H2, noise_x]], tlist=times_spl)
-        H = QobjEvo([self.H0, [self.H1, pulse_x], [self.H2, noise_x]], tlist=times_spl)
+        H = QobjEvo([self.H0, [self.H1, pulse_x_values], [self.H2, noise_x]], tlist=times_spl)
       return H, noise_x
      
 
