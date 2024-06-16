@@ -8,6 +8,8 @@ __pycache__/
 
 # text
 *.tex
+*.pdf
+
 
 # Distribution / packaging
 .Python
