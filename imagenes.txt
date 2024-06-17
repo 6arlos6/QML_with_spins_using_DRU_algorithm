@@ -1,53 +1,53 @@
 CAP 2
 
-    * SPIN:
+        * SPIN:
 
-fig1: ("results_of_test","test_2"),"pulse_compare.pdf" (Pulso AC y DC)
+    fig1: ("results_of_test","test_2"),"pulse_compare.pdf" (Pulso AC y DC)
 
-fig2:(3 x 3) ("results_of_test","test_2")
-    FIG(1,1) "Rx_without_RWA.pdf"  FIG(1,2) "RX_withRWA_expectation_in_Bloch.pdf" FIG(1,3) "pulse_Rx_Expectation_val_x.pdf"
-    FIG(2,1) "Rz_without_RWA.pdf"  FIG(2,2) "RZ_withRWA_expectation_in_Bloch.pdf" FIG(2,3) "pulse_Rz_Expectation_val_z.pdf"
-    FIG(3,1) "Ry_without_RWA.pdf"  FIG(3,2) "RY_withRWA_expectation_in_Bloch.pdf" FIG(3,3) "B1_PSeq_1_entgl_False_q_obj_0.pdf"
+    fig2:(3 x 3) ("results_of_test","test_2")
+        FIG(1,1) "Rx_without_RWA.pdf"  FIG(1,2) "RX_withRWA_expectation_in_Bloch.pdf" FIG(1,3) "pulse_Rx_Expectation_val_x.pdf"
+        FIG(2,1) "Rz_without_RWA.pdf"  FIG(2,2) "RZ_withRWA_expectation_in_Bloch.pdf" FIG(2,3) "pulse_Rz_Expectation_val_z.pdf"
+        FIG(3,1) "Ry_without_RWA.pdf"  FIG(3,2) "RY_withRWA_expectation_in_Bloch.pdf" FIG(3,3) "B1_PSeq_1_entgl_False_q_obj_0.pdf"
 
-fig3: (2 x 2) ("results_of_test","test_2")
-    FIG(1,1) "probability_Rx_in_time.pdf"             FIG(1,2) "probability_Rz_in_time_wo_noise.pdf"
-    FIG(2,1) "probability_SWAP_in_time_wo_noise.pdf"  FIG(2,2) "probability_sqrt_SWAP_in_time_wo_noise.pdf"
+    fig3: (2 x 2) ("results_of_test","test_2")
+        FIG(1,1) "probability_Rx_in_time.pdf"             FIG(1,2) "probability_Rz_in_time_wo_noise.pdf"
+        FIG(2,1) "probability_SWAP_in_time_wo_noise.pdf"  FIG(2,2) "probability_sqrt_SWAP_in_time_wo_noise.pdf"
 
-    * DRU:
+        * DRU:
 
-fig4: (1 x 1) ("results_of_test","test_1")
-    FIG(1,1) "test_1_2qe_concurrence.pdf"
+    fig4: (1 x 1) ("results_of_test","test_1")
+        FIG(1,1) "test_1_2qe_concurrence.pdf"
 
 
 CAP 3
 
-fig1: (2 X 1) ("results_of_test","test_1")
-    FIG(1,1) "frecuency_L.pdf"
-    FIG(2,1) "frecuency_Rx.pdf"
+    fig1: (2 X 1) ("results_of_test","test_1")
+        FIG(1,1) "frecuency_L.pdf"
+        FIG(2,1) "frecuency_Rx.pdf"
 
-fig2: (2 x 2) ("results_of_test","test_2") + (1,1)
-    FIG(1,1) "probability_Ry_in_time_wo_noise.pdf"  FIG(1,2) "probability_L_in_time_wo_noise.pdf"
-    FIG(2,1) "probability_CNOT_in_time_wo_noise.pdf" FIG(2,2) "tomography_bell_1.pdf" 
-    FIG(3,1) "probability_4CNOT_V2_in_time_wo_noise.pdf"
+    fig2: (2 x 2) ("results_of_test","test_2") + (1,1)
+        FIG(1,1) "probability_Ry_in_time_wo_noise.pdf"  FIG(1,2) "probability_L_in_time_wo_noise.pdf"
+        FIG(2,1) "probability_CNOT_in_time_wo_noise.pdf" FIG(2,2) "tomography_bell_1.pdf" 
+        FIG(3,1) "probability_4CNOT_V2_in_time_wo_noise.pdf"
 
 
 CAP 4
 
-fig1:   "probability_Rx_in_time_withc_c_noise_scatter.pdf"  "probability_Rx_with_q_noise.pdf"
-        "probability_Rx_with_both_noise.pdf"                "probability_Rz_with_q_noise.pdf"
+    fig1:   "probability_Rx_in_time_withc_c_noise_scatter.pdf"  "probability_Rx_with_q_noise.pdf"
+            "probability_Rx_with_both_noise.pdf"                "probability_Rz_with_q_noise.pdf"
 
-fig2: "probability_Ry_with_both_noise.pdf"    "probability_L_with_both_noise.pdf"
-      "probability_CNOT_with_q_noise.pdf"   "thomography_bell_1_both_noises.pdf"
+    fig2: "probability_Ry_with_both_noise.pdf"    "probability_L_with_both_noise.pdf"
+        "probability_CNOT_with_q_noise.pdf"   "thomography_bell_1_both_noises.pdf"
 
-fig 3: RZ_withRWA_expectation_in_Bloch.pdf   Rx_qnc_Expectation_val_z.pdf   pulse_Rx_qnc_Expectation_val_z.pdf
-       RX_withRWA_expectation_in_Bloch.pdf   Rx_qn_Expectation_val_x.pdf     pulse_Rx_qn_Expectation_val_z.pdf
+    fig 3: RZ_withRWA_expectation_in_Bloch.pdf   Rx_qnc_Expectation_val_z.pdf   pulse_Rx_qnc_Expectation_val_z.pdf
+        RX_withRWA_expectation_in_Bloch.pdf   Rx_qn_Expectation_val_x.pdf     pulse_Rx_qn_Expectation_val_z.pdf
 
 
 
 APENDIX A (<- CAP 3) (pulses): ("results_of_test","test_3")
 
-fig1: (2 imagees) (2 x 1)
-fig2: (4 images) (2 x 2)
-fig3: (5 images) (3 x 2)
-fig4: (8 images) (4 x 2)
-fig5: (11 images) (6 x 2)
+    fig1: (2 imagees) (2 x 1)
+    fig2: (4 images) (2 x 2)
+    fig3: (5 images) (3 x 2)
+    fig4: (8 images) (4 x 2)
+    fig5: (11 images) (6 x 2)
