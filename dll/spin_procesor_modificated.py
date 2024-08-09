@@ -304,32 +304,25 @@ class Quantum_Spin_Proces:
 
       # Hamiltonian:
       H = ((self.J * self.h**2)/4)*(tensor(*apply_qbit_x) + tensor(*apply_qbit_y) + tensor(*apply_qbit_z))
-      
       # Hamiltonian pulse:
       h_t = [H, pulse_x]
-
       # Correccion de desviacion estandar:
       if self.B1 != 0:
         dv = self.noise_std/abs(self.B1)
       else:
         dv = 0
-      
       # Argumentos del pulso:
       self.args = { "t_init": 0, "t_final": delt_t, "std_noise": dv}
-
       # Expectation values:
       if tf_expect:
         qobj = Qobj(self.measure, dims=[[2,2],[2,2]])
         e_ops = [qobj]
       else:
         e_ops = []
-      
       # Colpase operators:
       c_ops = []
-
       # times:
       self.tlist  = np.linspace(0, delt_t, self.n_points_pulse_2Qbits)
-
       if self.save_pulse == True:
         # Save pulses
         t_actual = self.global_time

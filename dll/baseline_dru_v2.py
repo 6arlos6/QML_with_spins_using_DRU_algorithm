@@ -45,10 +45,10 @@ class Modelo_DRU:
         self.entanglement = entanglement
         self.alpha_noise = alpha_noise
         # save list:
-        self.acc_train = []
-        self.acc_test = []
-        self.loss_list_train = []
-        self.loss_list_test = []
+        self.acc_train = [] # list to save train accuracy
+        self.acc_test = [] # list to save test accuracy
+        self.loss_list_train = [] # list to save loss f. value in train
+        self.loss_list_test = [] # # list to save loss f. value in test
         # porcentaje validadion
         self.prc_val = val_prc
         # paths to save:
