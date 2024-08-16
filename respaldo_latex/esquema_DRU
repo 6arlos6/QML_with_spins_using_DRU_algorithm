@@ -1,0 +1,90 @@
+\begin{tikzpicture}
+
+% (a) Neural network
+\node at (0, 2.5) {(a) Neural network};
+
+% Input layer
+\foreach \i in {1,2,3}
+    \fill[gray!50] (-2,2-\i) circle (0.2);
+
+% Hidden layer
+\foreach \i in {1,2,3,4}
+    \draw[fill=white] (0,3-\i) rectangle (0.7,2.3-\i);
+
+% Output layer
+\foreach \i in {1,2}
+    \fill[gray!50] (2,1.5-\i) circle (0.2);
+
+% Connections
+\foreach \i in {1,2,3}
+    \foreach \j in {1,2,3,4}
+        \draw (-2,2-\i) -- (0,2.5-\j);
+
+\foreach \i in {1,2}
+    \foreach \j in {1,2,3,4}
+        \draw (0.7,2.5-\j) -- (2,1.5-\i);
+
+% Processing arrow
+\draw[thick,->] (-3,3.2) -- (2.5,3.2) node[midway,above] {Processing};
+
+% (b) Quantum classifier
+\node at (6, 2.5) {(b) Quantum classifier};
+
+% Qubits
+\foreach \i in {0,1,2}
+    \node at (5.5,2-\i) {$\bullet$};
+
+% Quantum gates
+\foreach \i in {1,2,3,4}
+    \draw[fill=white] (7.5,3-\i) rectangle (8.2,2.3-\i);
+
+% Processing arrow (rotated)
+\draw[thick,->,rotate around={-45:(7,-0.5)}] (6.2,-0.5) -- (10,-0.5) node[midway,below,rotate=45] {Processing};
+
+% Output state
+\node at (8.5, -1.2) {$|\psi\rangle$};
+
+% Qubits connections
+\foreach \i in {1,2,3,4}
+    \draw (5.5,2) -- (8.2,2.5-\i);
+
+% Qubit state label
+\node at (5.5, 2.5) {$|0\rangle$};
+
+\end{tikzpicture}
+
+
+
+
+\begin{tikzpicture}
+
+% Etiqueta del estado inicial |0⟩
+\node at (-1.5, 1.5) {$|0\rangle$};
+
+% Dibujar bloques de procesamiento
+\foreach \i in {0,1,2} {
+    \draw[fill=white] (\i*2,0) rectangle (\i*2+1,1);
+}
+
+% Dibujar puntos y conexiones
+\foreach \i in {0,1,2} {
+    % Conexiones de entrada
+    \foreach \j in {1.5,2.0} {
+        \draw (\i*2, \j) -- (\i*2+0.5,  \j);
+        \fill[gray!50] (\i*2,\j) circle (0.2);
+    }
+    
+    % Conexiones de salida
+    \foreach \j in {1.5,2.0} {
+        \draw (\i*2+1,\j) -- (\i*2+0.5,1);
+        \fill[gray!50] (\i*2+2,\j) circle (0.2);
+    }
+}
+
+% Flecha diagonal con el texto "Processing"
+\draw[thick,->,rotate around={-0:(1,-0.5)}] (-1,-1) -- (5,-1) node[midway,below,rotate=0] {Processing};
+
+% Etiqueta del estado final |ψ⟩
+\node at (6.5, 1.5) {$|\psi\rangle$};
+
+\end{tikzpicture}
