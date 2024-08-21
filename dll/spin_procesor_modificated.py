@@ -75,8 +75,8 @@ class Quantum_Spin_Proces:
       self.ω_x = self.gir * self.B0 + self.f_rage # OJO
       self.ω_z = self.gir * self.B0 
       self.delt_t = (np.abs(alpha)*self.nf)/np.abs(self.ω_x)
-      self.B1 = (alpha * 2)/(self.gir * self.delt_t)
-      self.O_x = self.gir*(self.B1/2)
+      self.B1 = (alpha)/(self.gir * self.delt_t)
+      self.O_x = self.gir*(self.B1)
       # solucion:
       out = self.Hamiltonian_solve(tf_expect)
       if self.save_tv == True:
