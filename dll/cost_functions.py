@@ -38,7 +38,8 @@ def Trace_Distance_v3(dm_pred, dm_true):
 # Entropia de VN
 # ===============================================================
 
-def Von_Neumman_Divergence_v2(dm_pred, dm_true):
+# def Von_Neumman_Divergence_v2(dm_pred, dm_true):
+def Von_Neumman_Divergence_v2(dm_true, dm_pred):
   condicion_1 = np.count_nonzero(dm_true) == 1
   condicion_2 = np.array_equal(np.diag(np.diag(dm_true)), dm_true)
   if condicion_1 and condicion_2:
