@@ -38,7 +38,6 @@ def Trace_Distance_v3(dm_pred, dm_true):
 # Entropia de VN
 # ===============================================================
 
-# def Von_Neumman_Divergence_v2(dm_pred, dm_true):
 def Von_Neumman_Divergence_v2(dm_pred, dm_true):
   condicion_1 = np.count_nonzero(dm_true) == 1
   condicion_2 = np.array_equal(np.diag(np.diag(dm_true)), dm_true)
@@ -52,18 +51,47 @@ def Von_Neumman_Divergence_v2(dm_pred, dm_true):
     dm_true[np.diag_indices_from(dm_true)] = res
     dm_true[indice,indice] = const
   # continuar:
-  eigenvalues, eigenvectors = np.linalg.eig(dm_true)
+  eigenvalues, eigenvectors = np.linalg.eig(dm_pred)
   inverted_sqrt_eigenvalues = np.log(eigenvalues)
   log_p = np.dot(np.dot(eigenvectors, np.diag(inverted_sqrt_eigenvalues)), np.linalg.inv(eigenvectors))
   #log_rho = logm(dm_true)
-  eigenvalues, eigenvectors = np.linalg.eig(dm_pred)
+  eigenvalues, eigenvectors = np.linalg.eig(dm_true)
   inverted_sqrt_eigenvalues = np.log(eigenvalues)
   log_rho = np.dot(np.dot(eigenvectors, np.diag(inverted_sqrt_eigenvalues)), np.linalg.inv(eigenvectors))
   diff = log_p - log_rho
-  prod = np.dot(dm_true, diff)
+  prod = np.dot(dm_pred, diff)
   vkld = np.real(np.trace(prod))
   return vkld
 
+
+def Von_Neumman_Divergence_v3(dm_true, dm_pred):
+  condicion_1 = np.count_nonzero(dm_pred) == 1
+  condicion_2 = np.array_equal(np.diag(np.diag(dm_pred)), dm_pred)
+  if condicion_1 and condicion_2:
+    #dm_true = dm_true.astype(np.float64)
+    indice = np.where(np.diag(dm_pred) == 1)[0][0]
+    const = 0.999
+    e = dm_pred[indice,indice] - const
+    nf,nc = dm_pred.shape
+    res = e/(nf-1)
+    dm_pred[np.diag_indices_from(dm_pred)] = res
+    dm_pred[indice,indice] = const
+  # continuar:
+  eigenvalues, eigenvectors = np.linalg.eig(dm_pred)
+  inverted_sqrt_eigenvalues = np.log(eigenvalues)
+  log_p = np.dot(np.dot(eigenvectors, np.diag(inverted_sqrt_eigenvalues)), np.linalg.inv(eigenvectors))
+  #log_rho = logm(dm_true)
+  eigenvalues, eigenvectors = np.linalg.eig(dm_true)
+  inverted_sqrt_eigenvalues = np.log(eigenvalues)
+  log_rho = np.dot(np.dot(eigenvectors, np.diag(inverted_sqrt_eigenvalues)), np.linalg.inv(eigenvectors))
+  diff = log_p - log_rho
+  # cast to gradient
+  # Asegurarte de que dm_pred y diff sean diferenciables
+  dm_pred = np.array(dm_pred, requires_grad=True)
+  diff = np.array(diff, requires_grad=True)
+  prod = np.dot(dm_pred, diff)
+  vkld = np.real(np.trace(prod))
+  return vkld
 
 # Entropia de renyi
 # ===============================================================
